@@ -3,6 +3,7 @@ export interface TimelineEvent {
   year: number;
   title: string;
   shortDescription: string;
+  timelineDetail: string;
   overview: string;
   significance: string;
   impact: string;
@@ -16,6 +17,8 @@ export interface HistoricalFigure {
   role: string;
   years: string;
   biography: string;
+  image: string;
+  imageAlt: string;
   quote?: string;
 }
 

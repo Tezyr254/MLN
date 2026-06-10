@@ -13,8 +13,8 @@ interface TimelineProps {
   onScrollToHero?: () => void;
 }
 
-const MIN_NODE_SPACING = 320;
-const VERTICAL_NODE_SPACING = 200;
+const MIN_NODE_SPACING = 420;
+const VERTICAL_NODE_SPACING = 320;
 
 export function Timeline({ onScrollToHero }: TimelineProps) {
   const isMobile = useIsMobile();
@@ -22,7 +22,7 @@ export function Timeline({ onScrollToHero }: TimelineProps) {
   const [containerSize, setContainerSize] = useState(0);
 
   const horizontalTrackLength = useMemo(
-    () => Math.max(3800, timelineEvents.length * MIN_NODE_SPACING),
+    () => Math.max(4400, timelineEvents.length * MIN_NODE_SPACING),
     [],
   );
 
@@ -170,7 +170,7 @@ export function Timeline({ onScrollToHero }: TimelineProps) {
           className={`relative overflow-hidden rounded-2xl border border-mln-gold/10 bg-mln-dark/50 backdrop-blur-sm ${
             isMobile
               ? 'h-auto overflow-visible'
-              : 'h-[min(70vh,560px)] min-h-[480px] cursor-grab active:cursor-grabbing'
+              : 'h-[min(82vh,720px)] min-h-[600px] cursor-grab active:cursor-grabbing'
           } ${selectedEvent && !isMobile ? 'brightness-50 transition-all duration-500' : ''}`}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}

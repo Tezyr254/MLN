@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Quote } from 'lucide-react';
+import { LazyImage } from '../components/LazyImage';
 import { historicalFigures } from '../data/figures';
 
 const containerVariants = {
@@ -54,26 +55,33 @@ export function FiguresSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
-          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4"
         >
           {historicalFigures.map((figure) => (
             <motion.article
               key={figure.id}
               variants={cardVariants}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className="group relative overflow-hidden rounded-2xl border border-mln-gold/10 bg-mln-black/60 p-6 backdrop-blur-sm transition-colors hover:border-mln-gold/30"
+              className="group relative overflow-hidden rounded-2xl border border-mln-gold/10 bg-mln-black/60 backdrop-blur-sm transition-colors hover:border-mln-gold/30"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-mln-gold/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-              <div className="relative">
-                <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-mln-gold/20 to-mln-red/20 font-display text-2xl font-bold text-mln-gold">
-                  {figure.name.charAt(0)}
+              <div className="relative overflow-hidden">
+                <LazyImage
+                  src={figure.image}
+                  alt={figure.imageAlt}
+                  className="h-56 w-full transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-mln-black via-mln-black/20 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <h3 className="font-display text-xl font-semibold text-mln-white">
+                    {figure.name}
+                  </h3>
+                  <p className="text-sm font-medium text-mln-gold">{figure.role}</p>
                 </div>
-                <h3 className="font-display text-xl font-semibold text-mln-white">
-                  {figure.name}
-                </h3>
-                <p className="mt-1 text-sm font-medium text-mln-gold">{figure.role}</p>
-                <p className="mt-1 text-xs text-mln-white/40">{figure.years}</p>
-                <p className="mt-4 text-sm leading-relaxed text-mln-white/60">
+              </div>
+
+              <div className="p-5">
+                <p className="text-xs text-mln-white/40">{figure.years}</p>
+                <p className="mt-3 text-sm leading-relaxed text-mln-white/60">
                   {figure.biography}
                 </p>
                 {figure.quote && (
