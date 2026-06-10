@@ -1,0 +1,9 @@
+# Cấu hình Cloudflare Pages (miễn phí)
+# Xem hướng dẫn deploy trong README.md
+
+name = "mln"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "dist"
+
+[vars]
+# Biến môi trường tĩnh (nếu cần mở rộng sau này)
