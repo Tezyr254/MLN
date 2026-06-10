@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { TimelineEvent } from '../types';
-import { TIMELINE_END, TIMELINE_START } from '../data/events';
 
 const MIN_SCALE = 0.5;
 const MAX_SCALE = 2.5;
@@ -10,12 +9,14 @@ interface UseTimelineControlsOptions {
   isVertical: boolean;
   trackLength: number;
   containerSize: number;
+  eventCount: number;
 }
 
 export function useTimelineControls({
   isVertical,
   trackLength,
   containerSize,
+  eventCount,
 }: UseTimelineControlsOptions) {
   const [offset, setOffset] = useState(0);
   const [scale, setScale] = useState(DEFAULT_SCALE);
@@ -31,6 +32,16 @@ export function useTimelineControls({
       return Math.max(minOffset, Math.min(maxOffset, value));
     },
     [trackLength, containerSize, scale],
+  );
+
+  const getEventPosition = useCallback(
+    (index: number) => {
+      const padding = 180;
+      if (eventCount <= 1) return padding;
+      const usable = trackLength - padding * 2;
+      return padding + (index / (eventCount - 1)) * usable;
+    },
+    [trackLength, eventCount],
   );
 
   const zoomIn = useCallback(() => {
@@ -55,18 +66,10 @@ export function useTimelineControls({
     setSelectedEvent(null);
   }, []);
 
-  const getEventPosition = useCallback(
-    (year: number) => {
-      const ratio = (year - TIMELINE_START) / (TIMELINE_END - TIMELINE_START);
-      return ratio * trackLength;
-    },
-    [trackLength],
-  );
-
   const focusEvent = useCallback(
-    (event: TimelineEvent) => {
+    (event: TimelineEvent, index: number) => {
       setSelectedEvent(event);
-      const position = getEventPosition(event.year);
+      const position = getEventPosition(index);
       const targetScale = Math.min(MAX_SCALE, Math.max(1.4, scale));
       const center = containerSize / 2;
       const newOffset = clampOffset(center - position * targetScale, targetScale);
